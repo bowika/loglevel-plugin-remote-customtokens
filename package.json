@@ -1,5 +1,5 @@
 {
-  "name": "loglevel-plugin-remote",
+  "name": "loglevel-plugin-remote-customtokens",
   "description": "A loglevel plugin for sending browser logs to a server",
   "author": {
     "name": "kutuluk"
@@ -8,21 +8,21 @@
     "loglevel",
     "plugin"
   ],
-  "homepage": "https://github.com/kutuluk/loglevel-plugin-remote",
+  "homepage": "https://github.com/FreshGrade/loglevel-plugin-remote-customtokens",
   "bugs": {
-    "url": "https://github.com/kutuluk/loglevel-plugin-remote/issues"
+    "url": "https://github.com/FreshGrade/loglevel-plugin-remote-customtokens/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:kutuluk/loglevel-plugin-remote.git"
+    "url": "git@github.com:FreshGrade/loglevel-plugin-remote-customtokens.git"
   },
   "license": "MIT",
-  "version": "0.6.8",
+  "version": "0.7.0",
   "main": "./lib/loglevel-plugin-remote",
   "babel": {
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
           "targets": {
             "browsers": [
@@ -34,22 +34,26 @@
     ],
     "plugins": [
       "add-module-exports",
-      "transform-es2015-modules-umd"
+      "@babel/plugin-syntax-dynamic-import",
+      "@babel/plugin-transform-runtime"
     ]
   },
   "scripts": {
     "eslint": "eslint src/remote.js",
     "test": "mocha",
     "babel": "babel ./src/remote.js --out-file ./lib/loglevel-plugin-remote.js",
-    "uglifyjs": "uglifyjs ./lib/loglevel-plugin-remote.js -o ./dist/loglevel-plugin-remote.min.js -c -m reserved=[remote]",
-    "build": "npm run eslint && npm run babel && npm run uglifyjs",
+    "terser": "terser ./lib/loglevel-plugin-remote.js -o ./dist/loglevel-plugin-remote.min.js -c -m reserved=[remote]",
+    "build": "npm run eslint && npm run babel && npm run terser",
     "release": "npm install && npm run build && npm test && npm publish"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/plugin-syntax-dynamic-import": "7.8.3",
+    "babel-plugin-add-module-exports": "^1.0.2",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
+    "@babel/plugin-transform-runtime": "7.11.0",
+    "@babel/preset-env": "7.11.0",
     "chai": "^4.2.0",
     "eslint": "^5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -57,9 +61,9 @@
     "eslint-plugin-import": "^2.14.0",
     "loglevel": "^1.6.1",
     "loglevel-plugin-mock": "^0.1.0",
-    "mocha": "^5.2.0",
+    "mocha": "^8.1.1",
     "sinon": "^6.3.4",
-    "uglify-js": "^3.4.9"
+    "terser": "^5.0.0"
   },
   "dependencies": {}
 }

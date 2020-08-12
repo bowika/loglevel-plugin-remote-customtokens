@@ -185,6 +185,10 @@ function setToken() {
   throw new Error("You can't set token for a not appled plugin");
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const save = win.remote;
 
 const defaultCapacity = 500;
@@ -192,6 +196,7 @@ const defaults = {
   url: '/logger',
   method: 'POST',
   headers: {},
+  tokenlabel: '',
   token: '',
   onUnauthorized: () => {},
   timeout: 0,
@@ -257,7 +262,7 @@ const remote = {
 
     const queue = new Queue(config.capacity);
 
-    function send() {
+    async function send() {
       if (isSuspended || isSending || config.token === undefined) {
         return;
       }
@@ -272,13 +277,21 @@ const remote = {
         queue.content = isJSON ? `{"logs":[${logs.join(',')}]}` : logs.join('\n');
       }
 
+      if (config.token === '') {
+        await sleep(5000);
+        config.onUnauthorized();
+        return;
+      }
+
       isSending = true;
 
       const xhr = new win.XMLHttpRequest();
       xhr.open(config.method, config.url, true);
       xhr.setRequestHeader('Content-Type', contentType);
-      if (config.token) {
+      if (config.token && !config.tokenlabel) {
         xhr.setRequestHeader('Authorization', `Bearer ${config.token}`);
+      } else if (config.token && config.tokenlabel) {
+        xhr.setRequestHeader(`${config.tokenlabel}`, `${config.token}`);
       }
 
       const { headers } = config;

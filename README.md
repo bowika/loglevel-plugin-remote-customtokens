@@ -1,8 +1,5 @@
 # loglevel-plugin-remote
-
 A [loglevel](https://github.com/pimterry/loglevel) plugin for sending browser logs to a server.
-
-[![NPM version](https://img.shields.io/npm/v/loglevel-plugin-remote.svg?style=flat-square)](https://www.npmjs.com/package/loglevel-plugin-remote)[![Build Status](https://img.shields.io/travis/kutuluk/loglevel-plugin-remote/master.svg?style=flat-square)](https://travis-ci.org/kutuluk/loglevel-plugin-remote)
 
 ## Features
 
