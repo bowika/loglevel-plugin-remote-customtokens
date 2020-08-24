@@ -361,10 +361,8 @@ const remote = {
         && config.stacktrace.levels.some(level => level === methodName);
       const levelVal = loglevel.levels[methodName.toUpperCase()];
       const needLog = levelVal >= loglevel.levels[config.level.toUpperCase()];
-
       return (...args) => {
-        const arg = interpolate(args);
-        if (needLog || arg.includes('[Analytic Event]')) {
+        if (needLog || loggerName === 'Analytics') {
           const timestamp = config.timestamp();
 
           let stacktrace = needStack ? getStacktrace() : '';
@@ -409,11 +407,10 @@ const remote = {
           } else {
             content += log;
           }
-
           queue.push(content);
           send();
         }
-        if (!arg.includes('[Analytic Event]')) {
+        if (loggerName !== 'Analytics') {
           rawMethod(...args);
         }
       };
