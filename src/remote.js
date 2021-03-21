@@ -1,4 +1,5 @@
-const win = window;
+// eslint-disable-next-line no-restricted-globals
+const win = self;
 
 if (!win) {
   throw new Error('Plugin for browser usage only');
