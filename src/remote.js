@@ -197,9 +197,8 @@ const defaults = {
   url: '/logger',
   method: 'POST',
   headers: {},
-  tokenlabel: '',
   token: '',
-  onUnauthorized: () => {},
+  onUnauthorized: () => { },
   timeout: 0,
   interval: 1000,
   level: 'trace',
@@ -293,6 +292,10 @@ const remote = {
         xhr.setRequestHeader('Authorization', `Bearer ${config.token}`);
       } else if (config.token && config.tokenlabel) {
         xhr.setRequestHeader(`${config.tokenlabel}`, `${config.token}`);
+      }
+
+      if (config.withCredentials) {
+        xhr.withCredentials = true;
       }
 
       const { headers } = config;
